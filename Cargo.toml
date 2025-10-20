@@ -1,7 +1,21 @@
 [package]
 name = "okiro"
+authors = ["Michał Czyż <mike@c2yz.com>"]
 version = "0.1.0"
 edition = "2024"
+description = "okiro (起きろ) - remote computer wakeup / management / shutdown tool."
+homepage = "https://github.com/eRgo35/okiro"
+repository = "https://github.com/eRgo35/okiro"
+documentation = "https://github.com/eRgo35/okiro"
+keywords = ["wake-on-lan", "ssh", "server", "management", "cli"]
+license = "MIT"
+readme = "README.md"
+
+[[bin]]
+name = "okiro"
+path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5.49", features = ["derive"] }
+colorize = "0.1.0"
+config = { version = "0.15.18", features = ["toml"] }

@@ -16,6 +16,6 @@ name = "okiro"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.49", features = ["derive"] }
+clap = { version = "4.5.50", features = ["derive"] }
 colorize = "0.1.0"
 config = { version = "0.15.18", features = ["toml"] }

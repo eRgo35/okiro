@@ -11,6 +11,7 @@ homepage.workspace = true
 readme.workspace = true
 
 [dependencies]
+dirs = { workspace = true }
 macaddr = { workspace = true }
 parking_lot = { workspace = true }
 serde = { workspace = true }

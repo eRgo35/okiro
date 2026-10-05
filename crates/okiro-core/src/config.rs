@@ -143,12 +143,19 @@ impl Config {
 
 /// Cross-platform default config path.
 ///
-/// Stubbed in Phase 1 — Phase 3 will replace this with the `dirs`
-/// crate to produce the per-OS path table documented in the README.
-#[deprecated(note = "default_path() is implemented in Phase 3")]
+/// Resolution order (first match wins):
+///   * Linux: `XDG_CONFIG_HOME/okiro/okiro.toml`, falling back to
+///     `~/.config/okiro/okiro.toml`.
+///   * macOS: `~/Library/Application Support/okiro/okiro.toml` via
+///     `dirs::config_dir`.
+///   * Windows: `%APPDATA%\okiro\okiro.toml` via `dirs::config_dir`.
+///
+/// Returns `None` if the platform cannot determine a config directory
+/// (extremely rare; e.g. no `$HOME` and no XDG override on Linux).
 #[must_use]
 pub fn default_path() -> Option<PathBuf> {
-    None
+    let dir = dirs::config_dir()?;
+    Some(dir.join("okiro").join("okiro.toml"))
 }
 
 #[cfg(test)]
@@ -213,5 +220,11 @@ mod tests {
         .unwrap();
         let err = cfg.resolve("desktop").expect_err("missing host");
         assert!(matches!(err, CoreError::Host(HostError::NotFound { .. })));
+    }
+
+    #[test]
+    fn default_path_is_under_config_dir() {
+        let p = default_path().expect("a config dir exists on this host");
+        assert!(p.ends_with("okiro/okiro.toml"), "got {p:?}");
     }
 }

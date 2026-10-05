@@ -18,7 +18,7 @@ pub mod error;
 pub mod host;
 pub mod io;
 
-pub use config::Config;
+pub use config::{Config, default_path};
 pub use error::CoreError;
 pub use host::{Host, HostError};
 pub use io::{

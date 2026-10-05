@@ -10,16 +10,20 @@ use okiro_core::{Config, WolSender};
 mod cli;
 mod io;
 
-/// Phase 1: hardcoded config path. Phase 3 will replace this with
-/// `Config::default_path()` via the `dirs` crate.
+/// Resolve the active config path.
+///
+/// Honors `OKIRO_CONFIG` (escape hatch for tests and unusual layouts);
+/// otherwise falls back to [`okiro_core::default_path`].
 fn config_path() -> PathBuf {
     if let Ok(p) = std::env::var("OKIRO_CONFIG") {
         return PathBuf::from(p);
     }
-    let home = std::env::var_os("HOME")
-        .map(PathBuf::from)
-        .unwrap_or_else(|| PathBuf::from("."));
-    home.join(".config").join("okiro").join("okiro.toml")
+    okiro_core::default_path().unwrap_or_else(|| {
+        let home = std::env::var_os("HOME")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| PathBuf::from("."));
+        home.join(".config").join("okiro").join("okiro.toml")
+    })
 }
 
 /// Inner entry point that the integration test drives directly.

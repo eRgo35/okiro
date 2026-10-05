@@ -16,6 +16,7 @@ readme = "../../README.md"
 clap = { version = "4.5.50", features = ["derive"] }
 colorize = "0.1.0"
 config = { version = "0.15.18", features = ["toml"] }
+dirs = "5"
 macaddr = "1.0"
 parking_lot = "0.12"
 serde = { version = "1", features = ["derive"] }

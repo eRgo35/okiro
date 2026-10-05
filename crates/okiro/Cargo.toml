@@ -1,6 +1,6 @@
 [package]
 name = "okiro"
-description = "okiro (起きろ) — remote computer wakeup / management / shutdown tool."
+description = "okiro (起きろ) — small CLI for remote computer wakeup (MVP: only `okiro wake` is implemented)."
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -9,6 +9,8 @@ authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
 readme.workspace = true
+keywords = ["wake-on-lan", "wol", "cli"]
+categories = ["command-line-utilities", "network-programming"]
 
 [[bin]]
 name = "okiro"

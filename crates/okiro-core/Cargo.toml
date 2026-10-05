@@ -1,6 +1,6 @@
 [package]
 name = "okiro-core"
-description = "Core library for okiro: config, host resolution, and trait-based I/O."
+description = "Core library for okiro: config parsing, host resolution, and trait-based I/O."
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -9,6 +9,8 @@ authors.workspace = true
 repository.workspace = true
 homepage.workspace = true
 readme.workspace = true
+keywords = ["wake-on-lan", "wol"]
+categories = ["network-programming"]
 
 [dependencies]
 dirs = { workspace = true }

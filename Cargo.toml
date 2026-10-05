@@ -17,6 +17,9 @@ clap = { version = "4.5.50", features = ["derive"] }
 colorize = "0.1.0"
 config = { version = "0.15.18", features = ["toml"] }
 macaddr = "1.0"
+parking_lot = "0.12"
+serde = { version = "1", features = ["derive"] }
 socket2 = { version = "0.5", features = ["all"] }
 thiserror = "1.0"
+toml = "0.8"
 webbrowser = "1.0"

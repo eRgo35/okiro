@@ -1,0 +1,21 @@
+# Force LF line endings on all text files. Prevents rustfmt "Incorrect
+# newline style" failures on Windows CI where the runner's autocrlf may
+# otherwise rewrite *.rs to CRLF on checkout.
+* text=auto eol=lf
+
+# Be explicit for the file types we care about.
+*.rs         text eol=lf
+*.toml       text eol=lf
+*.yml        text eol=lf
+*.yaml       text eol=lf
+*.md         text eol=lf
+*.json       text eol=lf
+LICENSE-MIT  text eol=lf
+.gitignore   text eol=lf
+.editorconfig text eol=lf
+clippy.toml  text eol=lf
+rustfmt.toml text eol=lf
+
+# Binary files must not be normalized.
+*.png binary
+*.jpg binary

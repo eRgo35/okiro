@@ -27,7 +27,7 @@ jobs:
       - name: Cache cargo registry and target
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: ./shared/binaries -> ./
+          workspaces: . -> target
 
       - name: Show toolchain info
         run: |

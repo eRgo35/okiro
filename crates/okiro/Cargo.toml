@@ -19,5 +19,6 @@ okiro-core = { path = "../okiro-core" }
 clap = { workspace = true }
 colorize = { workspace = true }
 config = { workspace = true }
+parking_lot = { workspace = true }
 socket2 = { workspace = true }
 webbrowser = { workspace = true }

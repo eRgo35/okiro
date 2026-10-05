@@ -705,6 +705,7 @@ dependencies = [
  "colorize",
  "config",
  "okiro-core",
+ "parking_lot",
  "socket2",
  "webbrowser",
 ]

@@ -4,31 +4,54 @@ A small command-line tool for remote computer wakeup, management, and shutdown.
 
 起きろ (Japanese for "wake up") provides simple commands to wake machines via Wake-on-LAN, check reachability, open remote web interfaces, SSH into hosts, and perform remote shutdowns — all driven from a small, configurable command-line client.
 
-## Features
+## Status: Pre-1.0 MVP (0.2.0)
 
-- Wake machines with Wake-on-LAN (WOL).
-- Check host reachability (ping).
-- Open remote web dashboards in the default browser.
-- Start SSH sessions to configured hosts.
-- Request remote shutdown/poweroff.
-- Query host status (last-seen, online/offline).
-- Configurable hosts and settings via a user config file.
+This release is the **architectural MVP**. Only `okiro wake` is fully
+implemented. The remaining commands (`ping`, `browse`, `ssh`,
+`poweroff`, `status`, `list`) are stubs that exist to lock the public
+library API surface (`okiro-core`). They will be filled in during
+the 0.x → 1.0 workstream — see
+`docs/superpowers/specs/2026-10-05-okiro-mvp-plan.md` for the roadmap.
+
+What's intentionally **not** implemented yet:
+
+- `okiro ping <name>`
+- `okiro browse <name>`
+- `okiro ssh <name>`
+- `okiro poweroff <name>`
+- `okiro status`
+- `okiro list`
+- `--config <path>` global flag
+- Shell completions subcommand
+- `--json` output flag
+- System packages (AUR, deb, Homebrew tap)
+- crates.io / GitHub release artifacts
+
+## Features (in 0.2.0)
+
+- Wake machines via Wake-on-LAN (`okiro wake <name>`).
+- Configurable hosts via `okiro.toml` (name + MAC + optional host
+  fields).
 
 ## Installation
 
-Build from source (requires Rust/Cargo):
+Build from source (Rust 1.85+, edition 2024):
 
 ```bash
 cargo build --release
 ```
 
-Optional: create a system package or install via your distro's packaging tooling.
+The binary lands at `target/release/okiro`.
 
 ## Configuration
 
-okiro reads a config file for named hosts (MAC, IP/hostname, optional SSH user/port). Default config path:
+Default config path is resolved via the `dirs` crate:
 
-- ~/.config/okiro.toml
+| Platform | Path                                                    |
+|----------|---------------------------------------------------------|
+| Linux    | `~/.config/okiro/okiro.toml`                            |
+| macOS    | `~/Library/Application Support/okiro/okiro.toml`        |
+| Windows  | `%APPDATA%\okiro\okiro.toml`                            |
 
 Example `okiro.toml`:
 
@@ -39,74 +62,46 @@ mac  = "aa:bb:cc:dd:ee:ff"
 host = "laptop.example.local"
 ssh_user = "mike"
 ssh_port = 22
+poweroff_cmd = "sudo shutdown -h now"
 ```
 
-## Usage
+Only `name` and `mac` are required. The remaining fields are parsed
+but currently unused by `okiro wake`; they exist so that the future
+1.0 commands can read them without a config migration.
 
-Run `okiro --help` for full details. Example:
+## Commands
 
 ```txt
 $ okiro --help
-okiro - remote computer wakeup / management / shutdown tool
+okiro (起きろ) — remote computer wakeup / management / shutdown tool
 
-Usage: okiro [COMMAND]
+Usage: okiro <COMMAND>
 
 Commands:
-  wake       Send Wake-on-LAN to a configured host
-  ping       Ping a host to check reachability
-  ssh        Open an SSH session to a configured host
-  browse     Open a host's web dashboard in the browser
-  poweroff   Request shutdown of a host (via SSH or API)
-  status     Show status for configured hosts
-  help       Print this message or the help of the given subcommand(s)
-
-Options:
-  -h, --help     Print help
-  -V, --version  Print version
+  wake       Send Wake-on-LAN to a configured host (implemented)
+  ping       Ping a host (stub)
+  browse     Open remote web dashboard (stub)
+  ssh        Open an SSH session (stub)
+  poweroff   Request remote shutdown (stub)
+  status     Show host status (stub)
+  list       List configured hosts (stub)
 ```
 
-Examples:
+Working example:
 
-- Wake a host named "laptop":
-  
-  ```sh
-  okiro wake laptop
-  ```
+```sh
+okiro wake laptop
+```
 
-- SSH into a host:
-  
-  ```sh
-  okiro ssh laptop
-  ```
+## Project layout
 
-- Open the host (web dashboard or file share):
-  
-  ```sh
-  okiro browse server
-  ```
+This is a Cargo workspace:
 
-- Ping a host to check if it's online:
-  
-  ```sh
-  okiro ping server
-  ```
-
-- Power off a host (uses configured SSH if available):
-  
-  ```sh
-  okiro poweroff desktop
-  ```
-
-- Show interactive status for all configured hosts:
-  
-  ```sh
-  okiro status
-  ```
-
-## Contributing
-
-Contributions welcome. Open issues or PRs for bug fixes, new features, or improvements to host configuration handling.
+- `crates/okiro-core/` — library: config parsing, host resolution,
+  trait-based I/O (`WolSender`, `Pinger`, `SshRunner`,
+  `BrowserOpener`).
+- `crates/okiro/` — binary: clap CLI, calls into `okiro-core`.
 
 ## License
 
-MIT License. See LICENSE file for details.
+MIT. See [`LICENSE-MIT`](LICENSE-MIT).

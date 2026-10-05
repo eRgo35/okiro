@@ -47,11 +47,15 @@ The binary lands at `target/release/okiro`.
 
 Default config path is resolved via the `dirs` crate:
 
-| Platform | Path                                                    |
-|----------|---------------------------------------------------------|
-| Linux    | `~/.config/okiro/okiro.toml`                            |
-| macOS    | `~/Library/Application Support/okiro/okiro.toml`        |
-| Windows  | `%APPDATA%\okiro\okiro.toml`                            |
+| Platform | Path                                                              |
+|----------|-------------------------------------------------------------------|
+| Linux    | `$XDG_CONFIG_HOME/okiro/okiro.toml` (default `~/.config/okiro/okiro.toml`) |
+| macOS    | `~/Library/Application Support/okiro/okiro.toml`                  |
+| Windows  | `%APPDATA%\okiro\okiro.toml`                                      |
+
+Override the location for one invocation by setting the `OKIRO_CONFIG`
+environment variable to an explicit file path. This is the same
+mechanism the test suite uses to point at a tmpdir config.
 
 Example `okiro.toml`:
 

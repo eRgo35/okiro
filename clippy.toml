@@ -1,0 +1,32 @@
+# okiro clippy configuration.
+
+## Philosophy
+
+Default clippy lints are mandatory. Disallowed methods listed below are
+banned in library code (`okiro-core`); tests and the binary crate are
+exempt since panics are acceptable there.
+
+## Disallowed methods (lib code only)
+
+Panicking on `None`/`Err` in library code is forbidden. Tests may
+panic freely; binaries may `unwrap` only at process startup where
+nothing reasonable can be done on failure.
+
+disallowed-methods = [
+    { path = "std::option::Option::unwrap", reason = "use expect with a message or handle the None case" },
+    { path = "std::option::Option::expect", reason = "library code must not panic; return Result instead" },
+    { path = "std::result::Result::unwrap", reason = "use expect with a message or handle the Err case" },
+    { path = "std::result::Result::expect", reason = "library code must not panic; return Result instead" },
+]
+
+## Cognitive complexity threshold
+
+Warn at 9 (tighter than default 25).
+
+cognitive-complexity-threshold = 9
+
+## Type complexity threshold
+
+Warn at 200 (encourage small public APIs).
+
+type-complexity-threshold = 200

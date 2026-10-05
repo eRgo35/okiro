@@ -1,21 +1,22 @@
-[package]
-name = "okiro"
-authors = ["Michał Czyż <mike@c2yz.com>"]
-version = "0.1.0"
+[workspace]
+resolver = "2"
+members = ["crates/okiro-core", "crates/okiro"]
+
+[workspace.package]
+version = "0.2.0"
 edition = "2024"
-description = "okiro (起きろ) - remote computer wakeup / management / shutdown tool."
-homepage = "https://github.com/eRgo35/okiro"
-repository = "https://github.com/eRgo35/okiro"
-documentation = "https://github.com/eRgo35/okiro"
-keywords = ["wake-on-lan", "ssh", "server", "management", "cli"]
+rust-version = "1.85"
 license = "MIT"
-readme = "README.md"
+authors = ["Michał Czyż <mike@c2yz.com>"]
+repository = "https://github.com/eRgo35/okiro"
+homepage = "https://github.com/eRgo35/okiro"
+readme = "../../README.md"
 
-[[bin]]
-name = "okiro"
-path = "src/main.rs"
-
-[dependencies]
+[workspace.dependencies]
 clap = { version = "4.5.50", features = ["derive"] }
 colorize = "0.1.0"
 config = { version = "0.15.18", features = ["toml"] }
+macaddr = "1.0"
+socket2 = { version = "0.5", features = ["all"] }
+thiserror = "1.0"
+webbrowser = "1.0"

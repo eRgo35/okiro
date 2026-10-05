@@ -1,0 +1,23 @@
+[package]
+name = "okiro"
+description = "okiro (起きろ) — remote computer wakeup / management / shutdown tool."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+
+[[bin]]
+name = "okiro"
+path = "src/main.rs"
+
+[dependencies]
+okiro-core = { path = "../okiro-core" }
+clap = { workspace = true }
+colorize = { workspace = true }
+config = { workspace = true }
+socket2 = { workspace = true }
+webbrowser = { workspace = true }
